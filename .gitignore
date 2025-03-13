@@ -1,0 +1,9 @@
+# Directories
+.vs/
+.vscode/
+
+# Files
+*.user
+*.vcxproj*
+*.sln
+*.pyc
