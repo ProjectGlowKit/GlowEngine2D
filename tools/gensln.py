@@ -2,20 +2,34 @@ import sys
 import os
 import subprocess
 import platform
+import json
 
-osName = platform.system()
-if osName == "Windows":
+PLATFORM = "WINDOWS"
+configFilePath = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "glowconfig.json"))
+try:
+    with open(configFilePath, 'r') as config_file:
+        config_data = json.load(config_file)
+        
+        PLATFORM = config_data.get("GLOW_ENGINE", {}).get("PLATFORM", PLATFORM)
+
+except FileNotFoundError:
+    print(f"Error: {configFilePath} not found.")
+except json.JSONDecodeError:
+    print(f"Error: Failed to decode JSON from {configFilePath}.")
+except Exception as e:
+    print(f"Error reading configuration: {e}")
+
+if PLATFORM == "WINDOWS":
     file = "premake5windows.exe"
-elif osName == "Linux":
+elif PLATFORM == "LINUX":
     file = "premake5linux"
-elif osName == "Darwin":
+elif PLATFORM == "MACOS":
     file = "premake5macos"
 else:
     print("Error generating solution: unsupported os")
     sys.exit(1)
 
 premakePath = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "premake/", file))
-
 if not os.path.exists(premakePath):
     print(f"Error: Premake binary not found at {premakePath}")
     sys.exit(1)

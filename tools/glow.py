@@ -2,7 +2,11 @@ import sys
 import subprocess
 import os
 
-COMMANDS = ["help", "version", "gensln", "build", "run"]
+scriptDir = os.path.dirname(__file__)
+COMMANDS = sorted([
+    os.path.splitext(f)[0] for f in os.listdir(scriptDir)
+    if f.endswith(".py") and f not in {os.path.basename(__file__), "glow.py"}
+])
 
 def RunCommand(cmd, args):
     path = os.path.join(os.path.dirname(__file__), f"{cmd}.py")
