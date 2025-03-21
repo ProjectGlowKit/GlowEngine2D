@@ -10,7 +10,6 @@ VERSION_MAJOR = 0
 VERSION_MINOR = 0
 
 PLATFORM = "WINDOWS"
-CONFIG = "Debug"
 
 # Paths
 ENGINE_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -40,7 +39,6 @@ configData = {
         "V_MAJOR": VERSION_MAJOR,
         "V_MINOR": VERSION_MINOR,
         "PLATFORM": PLATFORM,
-        "CONFIG": CONFIG,
         "PATHS":
         {
             "ENGINE_ROOT": ENGINE_ROOT

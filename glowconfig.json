@@ -5,7 +5,6 @@
         "V_MAJOR": 0,
         "V_MINOR": 0,
         "PLATFORM": "WINDOWS",
-        "CONFIG": "Debug",
         "PATHS": {
             "ENGINE_ROOT": "C:\\Users\\kryst\\OneDrive\\Plocha\\dev\\GlowEngine2D"
         }

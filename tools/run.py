@@ -3,8 +3,12 @@ import sys
 import json
 import subprocess
 
+if len(sys.argv) < 2:
+    print("Usage: glow run <configuration>")
+    sys.exit(1)
+
 PLATFORM = "WINDOWS"
-CONFIG = "Debug"
+CONFIG = sys.argv[1]
 PROJECT_NAME = "UntitledProject"
 configFilePath = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "glowconfig.json"))
 try:
@@ -13,7 +17,6 @@ try:
         
         PLATFORM = config_data.get("GLOW_ENGINE", {}).get("PLATFORM", PLATFORM)
         ENGINE_ROOT = config_data.get("GLOW_ENGINE", {}).get("PATHS", {}).get("ENGINE_ROOT", "")
-        CONFIG = config_data.get("GLOW_ENGINE", {}).get("CONFIG", CONFIG)
         PROJECT_NAME = config_data.get("GLOW_ENGINE", {}).get("PROJECT_NAME", PROJECT_NAME)
 
 except FileNotFoundError:

@@ -8,6 +8,15 @@ workspace "GlowEngine"
         "Release"
     }
 
+-- Thirdparty Dependecies
+thirdparty = {}
+thirdparty["SDL3"] = "thirdparty/SDL3"
+thirdparty["spdlog"] = "thirdparty/spdlog"
+thirdparty["glad"] = "thirdparty/glad"
+
+-- Compile glad
+include "thirdparty/glad"
+
 project "GlowEngine"
     location "glowlib"
     kind "StaticLib"
@@ -27,12 +36,19 @@ project "GlowEngine"
 
     sysincludedirs 
     {
-        "glowlib/include"
+        "glowlib/include",
+        "%{thirdparty.SDL3}/include",
+        "%{thirdparty.spdlog}/include",
+        "%{thirdparty.glad}/include"
     }
 
     flags
     {
-        "FatalWarnings"
+    }
+
+    defines
+    {
+        "GLFW_INCLUDE_NONE"
     }
 
     filter "system:windows"
@@ -75,12 +91,16 @@ project "GlowEngine"
         runtime "Release"
         symbols "off"
         optimize "on"
+    
+    filter "action:vs*"
+        buildoptions { "/utf-8" }
 
 project "GlowEditor"
     location "gloweditor"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
+    staticruntime "on"
 
     targetdir ("bin/%{cfg.buildcfg}/%{prj.name}")
     objdir ("bin-obj/%{cfg.buildcfg}/%{prj.name}")
@@ -100,7 +120,6 @@ project "GlowEditor"
 
     flags
     {
-        "FatalWarnings"
     }
 
     filter "system:windows"
@@ -108,6 +127,15 @@ project "GlowEditor"
         defines
         {
             GWE_PLATFORM_WINDOWS
+        }
+        libdirs
+        {
+            "%{thirdparty.SDL3}/lib"
+        }
+        links
+        {
+            "SDL3",
+            "glad"
         }
 
     filter "system:linux"
@@ -143,3 +171,6 @@ project "GlowEditor"
         runtime "Release"
         symbols "off"
         optimize "on"
+    
+    filter "action:vs*"
+        buildoptions { "/utf-8" }
