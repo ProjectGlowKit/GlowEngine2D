@@ -7,11 +7,11 @@ namespace Glow
 {
 	void Renderer::Init()
 	{
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LEQUAL);
+		glEnable(GL_DEPTH_TEST); 
+		glDepthFunc(GL_LEQUAL); 
 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND); 
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 	}
 
 	void Renderer::Shutdown()
@@ -24,17 +24,29 @@ namespace Glow
 
 	void Renderer::Clear()
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 	}
 
 	void Renderer::SetClearColor(float r, float g, float b, float a)
 	{
-		GWE_ASSERT(mRenderCommands.size() == 0, "Unflushed render commands");
+		GWE_ASSERT(mRenderCommands.size() != 0, "Unflushed render commands");
 		while (mRenderCommands.size() > 0)
 		{
 			mRenderCommands.pop();
 		}
 		glClearColor(r, g, b, a);
+	}
+
+	void Renderer::SetWireFrameMode(bool enabled)
+	{
+		if(enabled)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		else
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
 	}
 
 	void Renderer::Submit(std::unique_ptr<RenderCommand> command)

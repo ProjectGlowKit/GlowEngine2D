@@ -16,6 +16,7 @@ namespace Glow
 
 		void Clear();
 		void SetClearColor(float r, float g, float b, float a);
+		void SetWireFrameMode(bool enabled);
 
 		void Submit(std::unique_ptr<RenderCommand> command);
 		void Flush();

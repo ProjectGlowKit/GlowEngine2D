@@ -55,13 +55,13 @@ project "GlowEngine"
         systemversion "latest"
         defines
         {
-            GWE_PLATFORM_WINDOWS
+            "GWE_PLATFORM_WINDOWS"
         }
 
     filter "system:linux"
         defines
         {
-            GWE_PLATFORM_LINUX
+            "GWE_PLATFORM_LINUX"
         }
 
     filter "system:macosx"
@@ -72,13 +72,14 @@ project "GlowEngine"
         }
         defines
         {
-            GWE_PLATFORM_MACOS
+            "GWE_PLATFORM_MACOS"
         }
     
     filter "configurations:Debug"
         defines
         {
-            GWE_CONFIG_DEBUG
+            "DEBUG",
+            "GWE_CONFIG_DEBUG"
         }
         runtime "Debug"
         symbols "on"
@@ -86,7 +87,8 @@ project "GlowEngine"
     filter "configurations:Release"
         defines
         {
-            GWE_CONFIG_RELEASE
+            "NDEBUG",
+            "GWE_CONFIG_RELEASE"
         }
         runtime "Release"
         symbols "off"
@@ -126,7 +128,7 @@ project "GlowEditor"
         systemversion "latest"
         defines
         {
-            GWE_PLATFORM_WINDOWS
+            "GWE_PLATFORM_WINDOWS"
         }
         libdirs
         {
@@ -141,7 +143,7 @@ project "GlowEditor"
     filter "system:linux"
         defines
         {
-            GWE_PLATFORM_LINUX
+            "GWE_PLATFORM_LINUX"
         }
 
     filter "system:macosx"
@@ -152,13 +154,14 @@ project "GlowEditor"
         }
         defines
         {
-            GWE_PLATFORM_MACOS
+            "GWE_PLATFORM_MACOS"
         }
     
     filter "configurations:Debug"
         defines
         {
-            GWE_CONFIG_DEBUG
+            "DEBUG",
+            "GWE_CONFIG_DEBUG"
         }
         runtime "Debug"
         symbols "on"
@@ -166,7 +169,8 @@ project "GlowEditor"
     filter "configurations:Release"
         defines
         {
-            GWE_CONFIG_RELEASE
+            "NDEBUG",
+            "GWE_CONFIG_RELEASE"
         }
         runtime "Release"
         symbols "off"

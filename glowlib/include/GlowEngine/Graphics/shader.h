@@ -15,9 +15,9 @@ namespace Glow
 
 		void SetUniformInt(const std::string name, int val);
 		void SetUniformFloat(const std::string name, float val);
-		void SetUniformFloat2(const std::string name, int val1, float val2);
-		void SetUniformFloat3(const std::string name, int val1, float val2, float val3);
-		void SetUniformFloat4(const std::string name, int val1, float val2, float val3, float val4);
+		void SetUniformFloat2(const std::string name, float val1, float val2);
+		void SetUniformFloat3(const std::string name, float val1, float val2, float val3);
+		void SetUniformFloat4(const std::string name, float val1, float val2, float val3, float val4);
 
 	private:
 		int GetUniformLocation(const std::string name);

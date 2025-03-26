@@ -15,6 +15,7 @@ namespace Glow
 
         //Public managers
         inline Renderer& GetRenderer() { return mRenderer; }
+        inline Window& GetWindow() { return mWindow; }
     private:
         static Engine* mEngine;
         Window mWindow;

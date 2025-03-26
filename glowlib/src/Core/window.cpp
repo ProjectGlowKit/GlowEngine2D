@@ -1,5 +1,9 @@
 #include "GlowEngine/Core/window.h"
 #include "GlowEngine/engine.h"
+
+//Events
+#include "GlowEngine/Events/mouse.h"
+
 #include "GlowEngine/log.h"
 
 #include "SDL3/SDL.h"
@@ -41,6 +45,7 @@ namespace Glow
 	void Window::Shutdown()
 	{
 		SDL_DestroyWindow(mWindow);
+		SDL_GL_DestroyContext(SDL_GLContext(mGLContext));
 		mWindow = nullptr;
 	}
 
@@ -68,5 +73,10 @@ namespace Glow
 	void Window::RenderEnd()
 	{
 		SDL_GL_SwapWindow(mWindow);
+	}
+
+	void Window::GetSize(int& width, int& height)
+	{
+		SDL_GetWindowSize(mWindow, &width, &height);
 	}
 }
