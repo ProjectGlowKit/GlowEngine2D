@@ -5,6 +5,7 @@ namespace Glow
 {
 	class Mesh;
 	class Shader;
+	class FrameBuffer;
 
 	class RenderCommand
 	{
@@ -20,9 +21,25 @@ namespace Glow
 			: mMesh(mesh),
 			  mShader(shader)
 		{}
-		virtual void Execute();
+		virtual void Execute() override;
 	private:
 		std::weak_ptr<Mesh> mMesh;
 		std::weak_ptr<Shader> mShader;
+	};
+
+	class PushFrameBuffer : public RenderCommand
+	{
+	public:
+		PushFrameBuffer(std::weak_ptr<FrameBuffer> framebuffer) : mFrameBuffer(framebuffer) {}
+		virtual void Execute() override;
+	private:
+		std::weak_ptr<FrameBuffer> mFrameBuffer;
+	};
+
+	class PopFrameBuffer : public RenderCommand
+	{
+	public:
+		PopFrameBuffer() {}
+		virtual void Execute() override;
 	};
 }

@@ -2,6 +2,8 @@
 
 #include <array>
 
+#include "thirdparty/glm/glm.hpp"
+
 namespace Glow
 {
 	class Mouse
@@ -9,12 +11,9 @@ namespace Glow
 	public:
 		static void Update();
 
-		inline static int X() { return x; }
-		inline static int Y() { return y; }
-		inline static int prevX() { return xPrev; }
-		inline static int prevY() { return yPrev; }
-		inline static int DX() { return x - xPrev; }
-		inline static int DY() { return y - yPrev; }
+		inline static glm::ivec2 pos() { return mPos; }
+		inline static glm::ivec2 prevPos() { return mPrevPos; }
+		inline static glm::ivec2 delta() { return mPos - mPrevPos; }
 
 		static bool Button(int button);
 		static bool ButtonDown(int button);
@@ -23,8 +22,8 @@ namespace Glow
 	private:
 		constexpr static const int ButtonCount = 5;
 
-		static float x, y;
-		static float xPrev, yPrev;
+		static glm::ivec2 mPos;
+		static glm::ivec2 mPrevPos;
 
 		static std::array<bool, ButtonCount> buttons;
 		static std::array<bool, ButtonCount> buttonsDown;

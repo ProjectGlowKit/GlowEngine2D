@@ -17,7 +17,7 @@ thirdparty["glad"] = "thirdparty/glad"
 -- Compile glad
 include "thirdparty/glad"
 
-project "GlowEngine"
+project "GlowLib"
     location "glowlib"
     kind "StaticLib"
     language "C++"
@@ -30,8 +30,12 @@ project "GlowEngine"
     files 
     {
         "glowlib/include/**.h",
+        "glowlib/include/**.hpp",
         "glowlib/src/**.cpp",
-        "glowlib/src/**.h"
+        "glowlib/src/**.h",
+        "glowlib/**.natvis",
+        -- specialy compile ImGui files
+        "glowlib/include/thirdparty/ImGui/**.cpp"
     }
 
     sysincludedirs 
@@ -107,7 +111,7 @@ project "GlowEditor"
     targetdir ("bin/%{cfg.buildcfg}/%{prj.name}")
     objdir ("bin-obj/%{cfg.buildcfg}/%{prj.name}")
 
-    links "GlowEngine"
+    links "GlowLib"
 
     files 
     {
@@ -117,7 +121,8 @@ project "GlowEditor"
 
     sysincludedirs 
     {
-        "glowlib/include"
+        "glowlib/include",
+        "%{thirdparty.spdlog}/include"
     }
 
     flags
@@ -178,3 +183,85 @@ project "GlowEditor"
     
     filter "action:vs*"
         buildoptions { "/utf-8" }
+
+-- Examples
+project "Pong"
+    location "examples/pong"
+    kind "ConsoleApp"
+    language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
+
+    targetdir ("bin/%{cfg.buildcfg}/examples/%{prj.name}")
+    objdir ("bin-obj/%{cfg.buildcfg}/examples/%{prj.name}")
+
+    links "GlowLib"
+
+    files 
+    {
+        "examples/pong/src/**.cpp",
+        "examples/pong/src/**.h"
+    }
+
+    sysincludedirs 
+    {
+        "%{wks.location}/glowlib/include",
+        "examples/pong/include",
+        "%{wks.location}/%{thirdparty.spdlog}/include"
+    }
+
+    flags
+    {
+    }
+
+    filter "system:windows"
+        systemversion "latest"
+        defines
+        {
+            "GWE_PLATFORM_WINDOWS"
+        }
+        libdirs
+        {
+            "%{wks.location}/thirdparty/SDL3/lib"
+        }
+        links
+        {
+            "SDL3",
+            "glad"
+        }
+
+    filter "system:linux"
+        defines
+        {
+            "GWE_PLATFORM_LINUX"
+        }
+
+    filter "system:macosx"
+        xcodebuildsettings
+        {
+            ["MACOSX_DEPLOYMENT_TARGET"] = "15.0",
+            ["UseModernBuildSystem"] = "NO"
+        }
+        defines
+        {
+            "GWE_PLATFORM_MACOS"
+        }
+
+    filter "configurations:Debug"
+        defines
+        {
+            "DEBUG",
+            "GWE_CONFIG_DEBUG"
+        }
+        runtime "Debug"
+        symbols "on"
+    
+    filter "configurations:Release"
+        defines
+        {
+            "NDEBUG",
+            "GWE_CONFIG_RELEASE"
+        }
+        runtime "Release"
+        symbols "off"
+        optimize "on"

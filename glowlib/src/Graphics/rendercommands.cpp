@@ -1,8 +1,10 @@
 #include "GlowEngine/Graphics/rendercommands.h"
+#include "GlowEngine/engine.h"
 #include "GlowEngine/log.h"
 
 #include "GlowEngine/Graphics/mesh.h"
 #include "GlowEngine/Graphics/shader.h"
+#include "GlowEngine/Graphics/framebuffer.h"
 
 #include "glad/glad.h"
 
@@ -34,4 +36,19 @@ namespace Glow
 			GWE_WARN("Warning, Executing RenderMesh command with invalid pointers");
 		}
 	}
+
+	
+	void PushFrameBuffer::Execute()
+	{
+		std::shared_ptr<FrameBuffer> fb = mFrameBuffer.lock();
+		if (!fb) { GWE_WARN("Warning, Executing PushFrameBuffer command with invalid pointers") }
+
+		Engine::Instance().GetRenderer().PushFrameBuffer(fb);
+	}
+
+	void PopFrameBuffer::Execute()
+	{
+		Engine::Instance().GetRenderer().PopFrameBuffer();
+	}
+
 }

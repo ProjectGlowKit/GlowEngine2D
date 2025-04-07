@@ -7,10 +7,8 @@
 
 namespace Glow
 {
-    float Mouse::x = 0;
-    float Mouse::y = 0;
-    float Mouse::xPrev = 0;
-    float Mouse::yPrev = 0;
+    glm::ivec2 Mouse::mPos(0, 0);
+    glm::ivec2 Mouse::mPrevPos(0, 0);
 
     std::array<bool, Mouse::ButtonCount> Mouse::buttons = { false };
 	std::array<bool, Mouse::ButtonCount> Mouse::buttonsDown = { false };
@@ -21,10 +19,12 @@ namespace Glow
         std::fill(buttonsDown.begin(), buttonsDown.end(), false);
         std::fill(buttonsUp.begin(), buttonsUp.end(), false);
 
-        xPrev = x;
-        yPrev = y;
+        mPrevPos = mPos;
         
+        float x, y;
         Uint32 state = SDL_GetMouseState(&x, &y);
+        mPos.x = static_cast<int>(x);
+        mPos.y = static_cast<int>(y);
 
         for (int i = 0; i < ButtonCount; i++)
         {

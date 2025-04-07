@@ -3,6 +3,8 @@
 
 #include "glad/glad.h"
 
+#include "thirdparty/glm/gtc/type_ptr.hpp"
+
 namespace Glow
 {
 	Shader::Shader(const std::string vertex, const std::string fragment)
@@ -95,15 +97,41 @@ namespace Glow
 		glUseProgram(mID); 
 		glUniform2f(GetUniformLocation(name), val1, val2); 
 	}
+	void Shader::SetUniformFloat2(const std::string name, const glm::vec2 vec)
+	{
+		glUseProgram(mID);
+		glUniform2f(GetUniformLocation(name), vec.x, vec.y);
+	}
 	void Shader::SetUniformFloat3(const std::string name, float val1, float val2, float val3)
 	{
 		glUseProgram(mID); 
 		glUniform3f(GetUniformLocation(name), val1, val2, val3); 
 	}
+	void Shader::SetUniformFloat3(const std::string name, const glm::vec3 vec)
+	{
+		glUseProgram(mID);
+		glUniform3f(GetUniformLocation(name), vec.x, vec.y, vec.z);
+	}
 	void Shader::SetUniformFloat4(const std::string name, float val1, float val2, float val3, float val4)
 	{
 		glUseProgram(mID); 
 		glUniform4f(GetUniformLocation(name), val1, val2, val3, val4); 
+	}
+	void Shader::SetUniformFloat4(const std::string name, const glm::vec4 vec)
+	{
+		glUseProgram(mID);
+		glUniform4f(GetUniformLocation(name), vec.x, vec.y, vec.z, vec.w);
+	}
+
+	void Shader::SetUniformMat3(const std::string name, const glm::mat3 mat)
+	{
+		glUseProgram(mID);
+		glUniformMatrix3fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
+	}
+	void Shader::SetUniformMat4(const std::string name, const glm::mat4 mat)
+	{
+		glUseProgram(mID);
+		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
 	}
 
 	//Private

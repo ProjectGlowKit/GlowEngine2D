@@ -3,13 +3,13 @@ import sys
 import json
 import subprocess
 
-if len(sys.argv) < 2:
-    print("Usage: glow run <configuration>")
+if len(sys.argv) < 3:
+    print("Usage: glow run <project> <configuration>")
     sys.exit(1)
 
 PLATFORM = "WINDOWS"
-CONFIG = sys.argv[1]
-PROJECT_NAME = "UntitledProject"
+CONFIG = sys.argv[2]
+PROJECT_NAME = sys.argv[1]
 configFilePath = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "glowconfig.json"))
 try:
     with open(configFilePath, 'r') as config_file:
@@ -17,7 +17,6 @@ try:
         
         PLATFORM = config_data.get("GLOW_ENGINE", {}).get("PLATFORM", PLATFORM)
         ENGINE_ROOT = config_data.get("GLOW_ENGINE", {}).get("PATHS", {}).get("ENGINE_ROOT", "")
-        PROJECT_NAME = config_data.get("GLOW_ENGINE", {}).get("PROJECT_NAME", PROJECT_NAME)
 
 except FileNotFoundError:
     print(f"Error: {configFilePath} not found.")
@@ -26,7 +25,7 @@ except json.JSONDecodeError:
 except Exception as e:
     print(f"Error reading configuration: {e}")
 
-if PLATFORM == "WINDOWS": path = os.path.join(ENGINE_ROOT, "bin", CONFIG, PROJECT_NAME, f"{PROJECT_NAME}.exe")
+if PLATFORM == "WINDOWS": path = os.path.join(ENGINE_ROOT, "bin", CONFIG, f"{PROJECT_NAME}.exe")
 else: path = os.path.join(ENGINE_ROOT, "bin", CONFIG, PROJECT_NAME)
 
 if PLATFORM == "WINDOWS":
